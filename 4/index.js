@@ -19,7 +19,7 @@ numbers.forEach (number => {
   grids.forEach(grid => {
     if (checkGrid(grid)) {
       console.log (grid, number * gridSum(grid))
-      exit(0)
+      grids.splice(grids.indexOf(grid), 1)
     }
   })
 })
@@ -41,7 +41,7 @@ function runNumber (number) {
 }
 
 
-function checkGrid (grid) {
+function checkGrid (grid, log) {
 
   for (let row of grid) {
     if (row.every(el => el.endsWith(' '))) {
@@ -50,12 +50,13 @@ function checkGrid (grid) {
   }
 
   for (let col = 0; col < grid[0].length; col++) {
+    let found = true
     for (let row = 0; row < grid.length; row++) {
       if (!grid[row][col].endsWith(' ')) {
-        return false
+       found = false
       }
     }
-    return true
+    if (found) return true
   }
 
   return false
