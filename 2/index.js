@@ -13,20 +13,22 @@ const instructions = lines.map((line) => {
 
 let pos = 0
 let depth = 0
+let aim = 0
 
 instructions.forEach((instruction) => {
 
   switch(instruction.instruction) {
     case 'forward':
       pos += instruction.value
+      depth += aim*instruction.value
       break
     case 'down':
-      depth += instruction.value
+      aim += instruction.value
       break
     case 'up':
-      depth -= instruction.value
+      aim -= instruction.value
       break
   }
 });
 
-console.log(`Ended up at position ${pos}, ${depth} (${pos*depth})`)
+console.log(`Ended up at position ${pos}, ${depth}, ${aim} (${pos*depth})`)
