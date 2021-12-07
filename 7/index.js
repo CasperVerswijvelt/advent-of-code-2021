@@ -11,10 +11,44 @@ const median = numbers.length % 2
     ? numbers[half]
     : (numbers[half - 1] + numbers[half]) / 2.0
 
-let fuel = 0
-
+let min
+let max
 numbers.forEach (number => {
-  fuel += Math.abs(number - median)
+  if (typeof min === 'undefined' || number < min) {
+    min = number
+  }
+  if (typeof max === 'undefined' || number > max) {
+    max = number
+  }
 })
 
-console.log(`Optimal fuel consumption: ${fuel}`)
+const idealPosition = median
+
+// Bruteforce check every position
+let leastFuel
+for (let i = min; i <= max; i++) {
+  let totalFuel = calcFuelForPosition(i)
+
+  if (typeof leastFuel === 'undefined' || totalFuel < leastFuel) {
+
+    leastFuel = totalFuel
+  }
+}
+
+function calcFuelForPosition (position) {
+  let fueld = 0
+  numbers.forEach (number => {
+    fueld += calcFuel(Math.abs(number - position))
+  })
+  return fueld
+}
+
+function calcFuel (distance) {
+  let fuel = 0
+  for (let i = 1; i <= distance; i++) {
+    fuel+=i
+  }
+  return fuel
+}
+
+console.log(`Optimal fuel consumption: ${leastFuel}`)
