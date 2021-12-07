@@ -6,26 +6,31 @@ const lines = text.split("\r\n");
 
 const numbers = lines[0].split(',')
 
-console.log(`Initial state: \t\t${numbers.join(',')}`)
+const days = 256
+const timers = Array(9).fill(0)
 
-const days = 80
+numbers.forEach (number => {
+  timers[number]++
+})
+
+console.log(`Initial state: \t\t${numbers.join(',')}`)
 
 for (let day = 1; day <= days; day++) {
 
-  for (let i = numbers.length - 1; i >= 0; i--) {
-    
-    if (numbers[i] === 0) {
+  let cpy = timers.slice()
+  
+  timers[8] = cpy[0]
+  timers[7] = cpy[8]
+  timers[6] = cpy[7] + cpy[0]
+  timers[5] = cpy[6]
+  timers[4] = cpy[5]
+  timers[3] = cpy[4]
+  timers[2] = cpy[3]
+  timers[1] = cpy[2]
+  timers[0] = cpy[1]
 
-      numbers[i] = 6
-      numbers.push(8)
-    } else {
-
-      numbers[i]--
-    }
-  }
-
-  //console.log(`After\t${day}\tdays:\t${numbers.join(',')}`)
+  console.log(`After\t${day}\tdays:\t${timers.reduce((previousValue, currentValue) => previousValue + currentValue)}`)
   //console.log(day)
 }
 
-console.log(`Fish count:\t${numbers.length}`)
+console.log(`Fish count:\t${timers.reduce((previousValue, currentValue) => previousValue + currentValue)}`)
