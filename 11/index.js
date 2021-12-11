@@ -8,7 +8,7 @@ const octopi = lines.map((line) => line.split("").map(character => parseInt(char
 const steps = 100
 let flashCount = 0
 
-for (let i = 0; i < steps; i++) {
+for (let i = 0;; i++) {
 
   // Step flashed tracker
   const flashTracker = []
@@ -40,6 +40,26 @@ for (let i = 0; i < steps; i++) {
         octopi[row][col] = 0
       }
     }
+  }
+
+  if (i === steps -1) {
+    console.log(`Total flash count after ${steps} steps: ${flashCount}`)
+  }
+
+  // Check simulateneous flash
+  let foundNotFlash = false
+  for (let row = 0; row < octopi.length; row++) {
+    for (let col = 0; col < octopi[row].length; col++) {
+      if (!flashTracker[row][col]) {
+        foundNotFlash = true
+        break
+      }
+    }
+    if (foundNotFlash) break
+  }
+  if (!foundNotFlash) {
+    console.log(`First simultaneous flash at step ${i + 1}`)
+    break
   }
 
   function checkFlashCount (row, col) {
@@ -74,8 +94,6 @@ for (let i = 0; i < steps; i++) {
     return 0
   }
 }
-
-console.log(`Total flash count: ${flashCount}`)
 
 function increaseOctopus(row, col) {
   if (octopi[row] && typeof octopi[row][col] === 'number') {
